@@ -1,0 +1,58 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru" class="h-100">
+<head>
+    {% block title %}
+        <title>Внутренний сайт</title>
+    {% endblock %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {#    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">#}
+    <link rel="stylesheet" href="{% static 'MDB5/css/mdb.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/solid.css' %}">
+</head>
+<body style="overflow-y:scroll">
+<header class="section-header py-3" style="background-color: #1863c8" >
+    <div class="container">
+        <h3 style="color: white">Прокуратура Алтайского края</h3>
+    </div>
+</header>
+
+{% include 'include/_navbar.html' %}
+<section class="section-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 mt-4">
+                {% block sidebar %}
+                    {% include 'include/_sidebar_index.html' %}
+                {% endblock %}
+            </div>
+
+            <div class="col-md-10 mt-4">
+                {% block content %}
+                    CONTENT
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</section>
+{#<footer class="footer mt-auto py-3">#}
+{#    <div class="container">#}
+{#        <span class="text-muted">Сайт работает на </span>#}
+{#        <a href="https://ru.wikipedia.org/wiki/Django">#}
+{#            <img src="/media/img/django-logo-positive.svg" width="86" height="30" alt="Django">#}
+{#        </a>#}
+{#    </div>#}
+{#</footer>#}
+
+{#<script src="{% static 'bootstrap\js\bootstrap.min.js' %}">#}
+<script src="{% static 'MDB5\js\mdb.min.js' %}">
+    {#<script src="{% static 'bootstrap5\js\mdb.min.js' %}">#}
+
+</script>
+
+</body>
+</html>

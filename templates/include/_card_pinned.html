@@ -1,0 +1,28 @@
+            {% if news_list_pinned %}
+                {% for item in news_list_pinned %}
+                    <div class="card border shadow-1-strong">
+                        <div class="card-header">
+                            <a href="{% url 'news_category' category_id=item.category_id %}">
+                                {{ item.category }} <img class="ml-4" src="/media/img/pinned.png" width="43" height="34" alt="Пин">
+                            </a>
+                        </div>
+                        <div class="card-body {{ item.style.style_tag }}">
+                            <h5 class="card-title">{{ item.title }}</h5>
+                            <p class="card-text">
+                            <p>{% autoescape off %}{{ item.content|linebreaks|truncatewords:20 }}{% endautoescape %}</p>
+
+                            {% if item.file %}
+                                <p>Скачать файл: <a href="{{ item.file.url }}" class="card-link">{{ item.filename }}</a>
+                                </p>
+                            {% endif %}
+
+                            {% if item.content|wordcount > 20 %}
+                                <a href="{% url 'news_view' news_id=item.pk %}" class="btn btn-primary">
+                                    Подробнее...
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <br>
+                {% endfor %}
+            {% endif %}
