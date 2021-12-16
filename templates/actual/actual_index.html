@@ -1,0 +1,67 @@
+{% extends "base_actual.html" %}
+
+{% block title %}
+    <title>
+        {% if parent %}
+            {{ parent }}
+        {% else %}
+            Направления деятельности
+        {% endif %}
+    </title>
+{% endblock %}
+
+
+{% block content %}
+    {% if parent %}
+        <div class="container mt-2">
+            <div class="row p-2">
+                <a class="btn btn-primary btn-lg" href="{% url 'actual_directions' parent_id=parent.pk %}"
+                   role="button">
+                    назад к разделу <b>{{ parent }}</b>
+                </a>
+            </div>
+            <div class="row p-2" align="center">
+                <h4>{{ current_direction }}</h4>
+            </div>
+        </div>
+    {% else %}
+        <div class="container mt-2">
+            <div class="row p-2" align="center">
+                <h4>Направления деятельности</h4>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="container mt-2">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for direct in direction %}
+                <div class="col">
+                    <div class="card h-100 text-white bg-primary">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ direct.direction_of_work }}</h5>
+                            {% if direct.description %}
+                                <p class="card-text">
+                                    {{ direct.description }}
+                                </p>
+                            {% endif %}
+                            <a href="{% url 'actual_directions' parent_id=direct.pk %}" class="stretched-link"></a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="container mt-4">
+
+        {% if notes %}
+            {% for note in notes %}
+                <hr>
+                {% autoescape off %}
+                    <h4>{{ note.note_title }}</h4>
+                    {{ note.note_text }}<br>
+                {% endautoescape %}
+            {% endfor %}
+
+        {% endif %}
+    </div>
+{% endblock %}
