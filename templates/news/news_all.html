@@ -1,0 +1,79 @@
+{% extends "base_generic.html" %}
+
+{% block title %}
+    <title>Внутренний сайт :: Объявления</title>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'include/_sidebar_index.html' %}
+    <br>
+    {% include 'include/news/_sidebar_categories.html' %}
+    {#    <br>#}
+    {#    {% include 'include/_sidebar_аccordion.html' %}#}
+{% endblock %}
+
+{% block content %}
+    <h5 class="text-center">
+        {% if by_category %}
+            Объявления по направлению <b>{{ by_category }}</b>
+        {% else %}
+            Все объявления
+        {% endif %}
+    </h5>
+
+    {% for item in page_obj %}
+        <div class="card border">
+            <div class="card-header">
+                <a href="{% url 'news_category' category_id=item.category_id %}">
+                    {{ item.category }}
+                </a>
+                - {{ item.created_at|timesince }} назад
+                <a href="{% url 'news_edit' news_id=item.pk %}"
+                   class="btn btn-sm btn-rounded btn-outline-danger"
+                >
+                    редактировать
+                </a>
+            </div>
+            <div class="card-body {{ item.style.style_tag }}">
+                <h5 class="card-title">{{ item.title }}</h5>
+                <p class="card-text">
+                <p>{% autoescape off %}{{ item.content|linebreaks|truncatewords:20 }}{% endautoescape %}</p>
+                {% if item.file %}
+                    <p>Скачать файл: <a href="{{ item.file.url }}" class="card-link">{{ item.filename }}</a></p>
+                {% endif %}
+                {% if item.content|wordcount > 40 %}
+                    <a href="{% url 'news_view' news_id=item.pk %}" class="btn btn-primary">Подробнее ...</a>
+                {% endif %}
+            </div>
+        </div>
+        <br>
+    {% endfor %}
+
+    {# блок ссылок пагинатора #}
+    <nav aria-label="...">
+        <ul class="pagination pagination-lg justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1"
+                       aria-disabled="true">Предыдущая</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Предыдущая</a>
+                </li>
+            {% endif %}
+            <li class="page-link">
+                {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+            </li>
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Следующая</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}

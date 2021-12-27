@@ -1,0 +1,43 @@
+{#результат поиска сотрудника#}
+
+<h5 class="mt-4">По запросу "{{ q }}" найдены сотрудники:</h5>
+<table class="table table-striped table-bordered table-sm mt-3">
+    {% for search_result in person_search_result_list %}
+        {% for item in search_result %}
+            <tr>
+                <td width="145">
+                    {% if item.sex == "М" %}
+                        <img src="/media/img/male.png" alt="фото" width="100">
+                    {% else %}
+                        <img src="/media/img/female.png" alt="фото" width="100">
+                    {% endif %}
+
+                </td>
+                <td>
+                    <h5>
+                        <a class="font-weight-bold" href="{% url 'person_detail' employee_id=item.pk %}">
+                            {{ item.surname }} {{ item.name }} {{ item.patronymic }}
+                        </a>
+                    </h5>
+                    {% for post in item.posts_set.all %}
+                        <a href="{% url 'departments' parent_id=post.dep.pk %}">{{ post.dep }}</a><br>
+                        {% if post.post_name %} {{ post.post_name }}<br>{% endif %}
+                    {% endfor %}
+
+                </td>
+                <td>
+                    {% if item.rank %}{{ item.rank }}<br>{% endif %}
+                    {% if item.mobile %} Мобильный номер: {{ item.mobile }}<br>{% endif %}
+                    {% if item.avaya %} Avaya: {{ item.avaya }}<br>{% endif %}
+                    {% if item.email_op %}
+                        ИСОП: <a href="mailto:{{ item.email_op }}">{{ item.email_op }}</a>
+                        <br>
+                    {% endif %}
+                    {% if item.birthday %} День рождения: {{ item.birthday|date:"d.m" }}
+                        <br>{% endif %}
+                </td>
+
+            </tr>
+        {% endfor %}
+    {% endfor %}
+</table>

@@ -3,7 +3,7 @@
 {% block title %}
     <title>
         {% if parent %}
-            {{ parent }}
+            {{ current_direction }}
         {% else %}
             Направления деятельности
         {% endif %}
@@ -21,7 +21,7 @@
                 </a>
             </div>
             <div class="row p-2" align="center">
-                <h4>{{ current_direction }}</h4>
+                <h4>{{ current_direction.direction_of_work }}</h4>
             </div>
         </div>
     {% else %}
@@ -57,8 +57,8 @@
             {% for note in notes %}
                 <hr>
                 {% autoescape off %}
-                    <h4>{{ note.note_title }}</h4>
-                    {{ note.note_text }}<br>
+                    <h4>{{ note.note_title }}</h4> <h6><b>(данные обновлены {{ note.updated_at }})</b></h6>
+                    {{ note.note_text }}
                 {% endautoescape %}
             {% endfor %}
 

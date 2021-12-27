@@ -1,0 +1,111 @@
+{% extends "base_generic.html" %}
+
+{% block title %}
+    <title>Внутренний сайт :: Главная</title>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'include/_sidebar_index.html' %}
+    <br>
+    {% include 'include/_sidebar_ip.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            <h5 class="text-center">
+                Сегодня
+            </h5>
+            {% if news_list %}
+                {% for item in news_list %}
+                    <div class="card border border-primary shadow-1-strong">
+                        <div class="card-header">
+                            <a href="{% url 'news_category' category_id=item.category_id %}">
+                                {{ item.category }}
+                            </a>
+                            - {{ item.created_at|timesince }} назад
+                            {% if user.is_authenticated %}
+                                <a href="{% url 'news_edit' news_id=item.pk %}"
+                                   class="btn btn-sm btn-rounded btn-outline-danger"
+                                >
+                                    редактировать
+                                </a>
+                            {% endif %}
+                        </div>
+                        <div class="card-body {{ item.style.style_tag }}">
+                            <h5 class="card-title">{{ item.title }}</h5>
+                            <p class="card-text">
+                            <p>{% autoescape off %}{{ item.content|linebreaks|truncatewords:20 }}{% endautoescape %}</p>
+                            {% if item.file %}
+                                <p>Скачать файл: <a href="{{ item.file.url }}" class="card-link">{{ item.filename }}</a>
+                                </p>
+                            {% endif %}
+                            {% if item.content|wordcount > 20 %}
+                                <a href="{% url 'news_view' news_id=item.pk %}" class="btn btn-primary">
+                                    Подробнее...</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <br>
+                {% endfor %}
+            {% else %}
+                <div class="card border border-primary shadow-1-strong">
+                    <div class="card-header">
+                        Информация сайта
+                    </div>
+                    <div class="card-body {{ item.style.style_tag }}">
+                        <h5 class="card-title">Сегодня объявления не публиковались</h5>
+                        <p class="card-text">
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if news_list_yesterday %}
+                <h5 class="text-center mt-4">Вчера</h5>
+            {% endif %}
+            {% for item in news_list_yesterday %}
+                <div class="card border shadow-1">
+                    <div class="card-header">
+                        <a href="{% url 'news_category' category_id=item.category_id %}">
+                            {{ item.category }}
+                        </a>
+                        - {{ item.created_at|timesince }} назад
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'news_edit' news_id=item.pk %}"><span
+                                    class="badge bg-primary">редактировать</span></a>
+                        {% endif %}
+
+                    </div>
+                    <div class="card-body {{ item.style.style_tag }}">
+                        <h5 class="card-title">{{ item.title }}</h5>
+                        <p class="card-text">
+                            {% autoescape off %}{{ item.content|linebreaks|truncatewords:20 }}{% endautoescape %}
+                        </p>
+                        {% if item.file %}
+                            <p>Скачать файл: <a href="{{ item.file.url }}" class="card-link">{{ item.filename }}</a></p>
+                        {% endif %}
+
+                        {% if item.content|wordcount > 20 %}
+                            <a href="{% url 'news_view' news_id=item.pk %}" class="btn btn-outline-primary btn-rounded">
+                                Подробнее...</a>
+                        {% endif %}
+                    </div>
+                </div>
+                <br>
+            {% endfor %}
+        </div>
+
+        <div class="col-md-4">
+            <h5 class="text-center">
+                Закрепленные объявления
+            </h5>
+            {% include 'include/_card_pinned.html' %}
+            <br>
+            {#            {% include 'include/_card_birthday.html' %}#}
+            <br>
+            {#            {% include 'include/_card_order_docs.html' %}#}
+        </div>
+
+    </div>
+
+{% endblock %}

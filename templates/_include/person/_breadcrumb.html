@@ -1,0 +1,10 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'departments' %}">Прокуратура края</a>
+            {% for link in breadcrumb %}
+                <li class="breadcrumb-item"><a
+                        href="{% url 'departments' parent_id=link.pk %}">{{ link.dep_name }}</a>
+                </li>
+            {% endfor %}
+    </ol>
+</nav>

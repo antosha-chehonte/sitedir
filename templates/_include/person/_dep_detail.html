@@ -1,0 +1,35 @@
+{% if current_dep %}
+    <table class="table table-striped table-bordered table-sm mt-3">
+        <tbody>
+        {% for item in current_posts %}
+            <tr>
+                <td class="align-middle">{{ item.post_name }}</td>
+                <td class="align-middle">
+                    {% if item.employee %}
+                        <a class="font-weight-bold" href="{% url 'person_detail' employee_id=item.employee.pk %}">
+                            {{ item.employee.surname }}<br>
+                            {{ item.employee.name }} {{ item.employee.patronymic }}
+                        </a><br>
+                        {% if item.employee.rank %}
+                            {{ item.employee.rank }}
+                        {% endif %}
+                    {% else %}
+                        <hr>
+                    {% endif %}
+                </td>
+                <td class="align-middle">
+                    {% if item.employee.email_op %}
+                        ИСОП: <a href="mailto:{{ item.employee.email_op }}">{{ item.employee.email_op }}</a><br>
+                    {% endif %}
+                    {% if item.employee.mobile %}
+                        Мобильный: {{ item.employee.mobile }}<br>
+                    {% endif %}
+                    {% if item.employee.avaya %}
+                        Avaya: {{ item.employee.avaya }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endif %}

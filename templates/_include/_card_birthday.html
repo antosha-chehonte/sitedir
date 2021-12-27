@@ -1,0 +1,14 @@
+{% if birthday %}
+    <div class="card" style="border-color: #d7e9e9">
+        <img class="card-img-top" src="/media/img/birthday-cap.jpg" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Сегодня поздравляем!</h5>
+            <p class="card-text">
+            <ul>
+                {% for item in birthday %}
+                    <li>{{ item.emp_surname }} {{ item.emp_firstname }} {{ item.emp_lastname }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endif %}

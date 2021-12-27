@@ -1,0 +1,30 @@
+{% if current_dep %}
+    <h4 style="text-align: center">{{ current_dep }}</h4>
+    <!-- кнопка ПОДРОБНЕЕ под названием подразделения -->
+    <div class="text-center">
+        <button
+                class="btn btn-light btn-sm"
+                type="button"
+                data-mdb-toggle="collapse"
+                data-mdb-target="#collapseExample"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+                id="current_dep"
+        >
+            подробнее
+        </button>
+    </div>
+
+    <!-- раскрывающиеся данные под названием подразделения -->
+    <div class="collapse mt-3" id="collapseExample">
+        <h6 style="text-align: center">
+            {{ current_dep.zipcode }},
+            {{ current_dep.city }},
+            {{ current_dep.street }},
+            {{ current_dep.bldg }}
+            {% if current_dep.email_mailop %}
+                <a href="mailto:{{ current_dep.email_mailop }}">{{ current_dep.email_mailop }}</a>
+            {% endif %}
+        </h6>
+    </div>
+{% endif %}

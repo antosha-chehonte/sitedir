@@ -1,0 +1,18 @@
+{#<h5 class="text-center">Меню сайта</h5>#}
+<div class="row">
+    <div class="col-md-12">
+        <div class="list-group list-group">
+            <a href="{% url 'index' %}" class="list-group-item list-group-item-action">Главная страница</a>
+            <a href="{% url 'news' %}" class="list-group-item list-group-item-action">Все объявления</a>
+            <a href="{% url 'person' %}" class="list-group-item list-group-item-action">Сотрудники</a>
+            <a href="{% url 'order' %}" class="list-group-item list-group-item-action">Добавить приказ</a>
+            <a href="{% url 'order_search' %}" class="list-group-item list-group-item-action">Найти приказ</a>
+            <a href="{% url 'person_search' %}" class="list-group-item list-group-item-action">Поиск сотрудников</a>
+{#            <a href="{% url 'file_list' %}" class="list-group-item list-group-item-action">Файлы</a>#}
+            <a href="{% url 'file_list' %}" class="list-group-item list-group-item-action">Файлы на pathlib</a>
+{#            <a href="{% url 'file_list3' %}" class="list-group-item list-group-item-action">Файлы3</a>#}
+            <a href="{% url 'cert' %}" class="list-group-item list-group-item-action">Сертификаты</a>
+            <a href="{% url 'passport_index' %}" class="list-group-item list-group-item-action">Паспорт территорий</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+{# правила поиска #}
+{% if answer == 'no_matches' %}
+    <h5 class="mt-4">По вашему запросу "{{ q }}" ничего не найдено</h5>
+{% else %}
+    <h5 class="mt-4">Введите в поисковое поле фамилию сотрудника или название подразделения и нажмите "НАЙТИ"</h5>
+    <div>
+        <button
+                class="btn btn btn-outline-primary btn-sm"
+                type="button"
+                data-mdb-toggle="collapse"
+                data-mdb-target="#collapseExample"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+        >
+            подробнее о правилах поиска
+        </button>
+    </div>
+
+    <!-- Collapsed content -->
+    <div class="col-md-8 collapse mt-3" id="collapseExample">
+        <h6>
+            Сайт позваляет искать по фамилии сотрудников, названиям подразделений и прокуратур а также по номерам
+            телефонов. Для поиска необходмо ввести фамилию или название подразделения или номер телефона. Допустимо
+            искать по фрагментам.
+        </h6>
+    </div>
+{% endif %}
