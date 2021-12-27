@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from actual.models import DirectionsList, Notes
+from actual.forms import NoteEditForm
+from django.contrib.auth.decorators import login_required
 
 
 def actual_index(request, parent_id=1):
@@ -20,3 +22,19 @@ def actual_index(request, parent_id=1):
     }
 
     return render(request, template_name="actual/actual_index.html", context=context)
+
+
+@login_required
+def note_add(request):
+    if request.method == 'POST':
+        post_form = NoteEditForm(request.POST)
+        if post_form.is_valid():
+            post_form.save()
+            # return redirect(note_add)
+            # return render(request, 'actual/note_add.html')
+    else:
+        post_form = NoteEditForm
+        context = {
+            "post_form": post_form,
+        }
+        return render(request, 'actual/note_add.html', context)

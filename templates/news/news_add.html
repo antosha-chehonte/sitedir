@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-md-9">
                 <h5 class="text-center">Добавление объявления</h5>
-                <form action="{% url 'add_news' %}" method="post">
+                <form action="{% url 'n' %}" method="post">
                     {% csrf_token %}
                     {{ post_form.media }}
                     {{ post_form.as_p }}

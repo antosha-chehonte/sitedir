@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    # path('', include('news.urls')),
+    path('news', include('news.urls')),
     # path('actual/', include('actual.urls')),
     path('', include('actual.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
