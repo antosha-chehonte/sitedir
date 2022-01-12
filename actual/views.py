@@ -1,17 +1,21 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from actual.models import DirectionsList, Notes
+from django.urls import reverse
+
+from actual.models import Notes, Directions
 from actual.forms import NoteEditForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
 
 def actual_index(request, parent_id=1):
-    direction = DirectionsList.objects.filter(parent=parent_id)
+    direction = Directions.objects.filter(parent=parent_id)
     notes = Notes.objects.filter(direction_of_work=parent_id).order_by('-updated_at')
-    current_direction = DirectionsList.objects.get(pk=parent_id)
+    current_direction = Directions.objects.get(pk=parent_id)
     if not parent_id:
         parent = None
     else:
-        parent_direction = DirectionsList.objects.get(pk=parent_id)
+        parent_direction = Directions.objects.get(pk=parent_id)
         parent = parent_direction.parent
 
     context = {
@@ -24,16 +28,24 @@ def actual_index(request, parent_id=1):
     return render(request, template_name="actual/actual_index.html", context=context)
 
 
+def actual_directions_tree(request):
+    directions = Directions.objects.all()
+    context = {
+        'nodes': directions,
+    }
+
+    return render(request, template_name="actual/directions_tree.html", context=context)
+
+
 @login_required
-def note_add(request):
+def note_add(request, direction_id=1):
     if request.method == 'POST':
         post_form = NoteEditForm(request.POST)
         if post_form.is_valid():
             post_form.save()
-            # return redirect(note_add)
-            return render(request, 'actual/note_add.html')
+            return HttpResponseRedirect(reverse('actual_index'))
     else:
-        post_form = NoteEditForm
+        post_form = NoteEditForm(initial={'direction_of_work': direction_id})
         context = {
             "post_form": post_form,
         }
@@ -43,19 +55,18 @@ def note_add(request):
 @login_required
 def note_edit(request, note_id):
     editable_news = Notes.objects.get(pk=note_id)
-    editable = True
     revers_id = editable_news.direction_of_work.pk
     if request.method == 'POST':
         post_form = NoteEditForm(request.POST, instance=editable_news)
         if post_form.is_valid():
             post_form.save()
-            # return redirect(index)
+            return HttpResponseRedirect(reverse('actual_index'))
     else:
         post_form = NoteEditForm(instance=editable_news)
         context = {
             "post_form": post_form,
-            "editable": editable,
             "revers_id": revers_id,
+            "note_id": note_id,
 
         }
-        return render(request, 'actual/note_add.html', context)
+        return render(request, 'actual/note_edit.html', context)

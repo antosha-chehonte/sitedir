@@ -1,6 +1,20 @@
 from django.db import models
 from django.urls import reverse
 from ckeditor_uploader.fields import RichTextUploadingField
+from mptt.models import MPTTModel, TreeForeignKey
+
+
+class Categories(MPTTModel):
+    title = models.CharField(max_length=150, db_index=True, verbose_name='Наименование направления работы')
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Направление работы (mptt)'
+        verbose_name_plural = 'Направления работы (mptt)'
+        ordering = ['title']
 
 
 class News(models.Model):
@@ -12,7 +26,7 @@ class News(models.Model):
     is_published = models.BooleanField(default=True, verbose_name='Опубликовано')
     show_author = models.BooleanField(default=True, verbose_name='Показать автора объявления')
     pinned = models.BooleanField(default=False, verbose_name='Закрепить сообщение')
-    category = models.ForeignKey('Category', on_delete=models.PROTECT,
+    category = models.ForeignKey(Categories, on_delete=models.PROTECT,
                                  null=True, verbose_name='Направление деятельности')
     style = models.ForeignKey('Style', on_delete=models.PROTECT, null=True, blank=True, verbose_name='Стиль оформления')
 

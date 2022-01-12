@@ -1,13 +1,13 @@
 {% extends "base_actual.html" %}
 
 {% block title %}
-    <title>Добавить актуальную информацию</title>
+    <title>Изменить актуальную информацию</title>
 {% endblock %}
 
 {% block content %}
 
     <div class="container mt-4 mb-5">
-        <form action="{% url 'note_add' %}" method="post">
+        <form action="{% url 'note_edit' note_id=note_id %}" method="post">
             {% csrf_token %}
             {{ post_form.media }}
             {{ post_form.as_p }}
@@ -15,13 +15,13 @@
             <div class="row">
                 <div class="col-md-10">
                     <button type="submit" class="btn btn-primary btn-block">
-                            Добавить объявление
+                            Сохранить изменения
                     </button>
                 </div>
                 <div class="col-md-2 d-flex justify-content-end">
-{#                    <a href="{% url 'actual_directions' parent_id=revers_id %}" class="btn btn-secondary btn-block">#}
-{#                    назад#}
-{#                    </a>#}
+                    <a href="{% url 'actual_directions' parent_id=revers_id %}" class="btn btn-warning btn-block">
+                    назад
+                    </a>
                 </div>
             </div>
         </form>
