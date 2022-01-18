@@ -39,6 +39,7 @@ def actual_directions_tree(request):
 
 @login_required
 def note_add(request, direction_id=1):
+    revers_id = direction_id
     if request.method == 'POST':
         post_form = NoteEditForm(request.POST)
         if post_form.is_valid():
@@ -48,6 +49,7 @@ def note_add(request, direction_id=1):
         post_form = NoteEditForm(initial={'direction_of_work': direction_id})
         context = {
             "post_form": post_form,
+            "revers_id": revers_id,
         }
         return render(request, 'actual/note_add.html', context)
 

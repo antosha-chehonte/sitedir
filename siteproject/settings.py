@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'news.apps.NewsConfig',
     'actual.apps.ActualConfig',
+    'it.apps.ItConfig',
     'ckeditor',
     'ckeditor_uploader',
     'mptt',
@@ -91,7 +92,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 STATICFILES_DIRS = [
@@ -106,8 +106,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_CONFIGS = {
     'default': {
-        'toolbar': 'full',
-        'width': '100%'
+        'toolbar_Full': [
+            ['Undo', 'Redo', 'Paste'],
+            ['RemoveFormat', 'CopyFormatting', 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
+            ['Find', 'Replace', 'SelectAll'],
+            ['NumberedList', 'BulletedList', 'JustifyLeft', 'JustifyCenter'],
+            ['Link', 'Unlink'],
+            ['Font', 'FontSize'],
+            ['TextColor', 'BGColor'],
+            ['Maximize'],
+            ['About']
+        ],
+        'extraPlugins': 'justify,liststyle,indent',
     },
 }
 

@@ -1,4 +1,5 @@
 {% extends "base_actual.html" %}
+{% load static %}
 
 {% block title %}
     <title>
@@ -111,9 +112,14 @@
         <div class="container mt-4">
             <footer class="bg-light shadow-1-strong text-lg-start">
                 <div class="row">
-                    <div class="col-md-11 p-3 text-center">
-                        Вы вошли как <b>{{ user.get_username }}</b>
+                    <div class="col-md-1 p-3">
+{#                        <img src="{% static 'img/gerb.png' %}" height="50">#}
                     </div>
+
+                    <div class="col-md-10 p-3 text-center">
+                        Вы вошли как <b>{{ user.get_full_name|default:user.username }}</b>
+                    </div>
+
                     <div class="col-md-1 p-3">
                         <a href="{% url 'logout' %}">Выйти</a>
                     </div>
