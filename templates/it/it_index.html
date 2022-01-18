@@ -1,0 +1,142 @@
+{% extends "base_it.html" %}
+{% load static %}
+
+{% block title %}
+    <title>
+        {{ current_direction.direction }}
+    </title>
+{% endblock %}
+
+
+{% block content %}
+
+    {# шапка с кнопками навигации #}
+    {% if parent %}     {# если текущее направление деятельности является дочерним #}
+        <div class="container mt-2">
+            <div class="row">
+                <div class="col-md-11 mt-1">
+                    <a class="btn btn-primary btn-block btn-lg" href="{% url 'it_directions' parent_id=parent.pk %}"
+                       role="button">
+                        назад к разделу <b>{{ parent }}</b>
+                    </a>
+                </div>
+                <div class="col-md-1 mt-1">
+                    <a class="btn btn-primary btn-block btn-lg" href="{% url 'it_index' %}"> {# возврат "домой" #}
+                        <i class="fas fa-home fa-lg"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row p-2" align="center">
+                <h4>{{ current_direction.direction }}</h4>
+            </div>
+        </div>
+
+
+    {% else %}      {# если текущее направление деятельности является корнем #}
+        <div class="container mt-2">
+            <div class="row">
+                <div class="col-md-1 d-flex justify-content-center">
+                    {# пустышка для центрирования#}
+                </div>
+                <div class="col-md-10 d-flex justify-content-center">
+                    <h4>Направления IT</h4>
+                </div>
+                <div class="col-md-1 d-flex justify-content-end">
+                    <a href="{% url 'it_directions_tree' %}">
+                        <i class="fas fa-sitemap fa-lg"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {# блок отривсовки направлений деятельносити #}
+    <div class="container mt-2">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for direct in direction %}
+                <div class="col">
+                    <div class="card h-100 text-white bg-primary">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ direct.direction }}</h5>
+                            {% if direct.description %}
+                                <p class="card-text">
+                                    {{ direct.description }}
+                                </p>
+                            {% endif %}
+                            <a href="{% url 'it_directions' parent_id=direct.pk %}" class="stretched-link"></a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {# блок отривсовки заметок #}
+    <div class="container mt-4">
+        {% if notes %}
+            {% for note in notes %}
+                <hr>
+                <div class="row">
+                    <div class="col-md-11">
+                        <h4>{{ note.note_title }}</h4>
+                        <h6><b>(данные обновлены {{ note.updated_at }})</b></h6>
+                    </div>
+                    <div class="col-md-1 d-flex justify-content-end">
+                        <a href="{% url 'it_note_edit' note_id=note.pk %}"><i class="fas fa-edit fa-lg"></i></a>
+                    </div>
+                </div>
+                {% autoescape off %}
+                    {{ note.note_text }}
+                {% endautoescape %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    {# блок отривсовки кнопки добавления заметки #}
+    {% if user.is_authenticated %}
+        <div class="container mt-4">
+            <hr>
+            <div class="row">
+                <div class="col-md-6 mt-1">
+                    <a href="" class="btn btn-info btn-block">
+                        добавить направление деятельности
+                    </a>
+                </div>
+                <div class="col-md-6 mt-1">
+                    <a href="{% url 'it_note_add_id' direction_id=current_direction.pk %}" class="btn btn-info btn-block">
+                        добавить информацию
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-4">
+            <footer class="bg-light shadow-1-strong text-lg-start">
+                <div class="row">
+                    <div class="col-md-1 p-3">
+{#                        <img src="{% static 'img/gerb.png' %}" height="50">#}
+                    </div>
+
+                    <div class="col-md-10 p-3 text-center">
+                        Вы вошли как <b>{{ user.get_full_name|default:user.username }}</b>
+                    </div>
+
+                    <div class="col-md-1 p-3">
+                        <a href="{% url 'logout' %}">Выйти</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    {% else %}
+        <div class="container mt-4">
+            <hr>
+            <div class="row">
+                <div class="col-md-12 mt-1">
+                    <a href="{% url 'login' %}" class="btn btn-info btn-block">
+                        войти для редактирования
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}
