@@ -1,13 +1,13 @@
 {% extends "base_actual.html" %}
 
 {% block title %}
-    <title>Изменить актуальную информацию</title>
+    <title>Редактировать направление деятельности</title>
 {% endblock %}
 
 {% block content %}
 
     <div class="container mt-4 mb-5">
-        <form action="{% url 'note_edit' note_id=note_id %}" method="post">
+        <form action="{% url 'directions_edit' direction_id=revers_id %}" method="post">
             {% csrf_token %}
             {{ post_form.media }}
             {{ post_form.as_p }}

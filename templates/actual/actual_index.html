@@ -26,7 +26,7 @@
                     </a>
                 </div>
             </div>
-            <div class="row p-2" align="center">
+            <div class="row p-2 mt-3" align="center">
                 <h4>{{ current_direction.direction }}</h4>
             </div>
         </div>
@@ -85,9 +85,11 @@
                         <a href="{% url 'note_edit' note_id=note.pk %}"><i class="fas fa-edit fa-lg"></i></a>
                     </div>
                 </div>
-                {% autoescape off %}
-                    {{ note.note_text }}
-                {% endautoescape %}
+                <div class="mt-4">
+                    {% autoescape off %}
+                        {{ note.note_text }}
+                    {% endautoescape %}
+                </div>
             {% endfor %}
         {% endif %}
     </div>
@@ -97,9 +99,14 @@
         <div class="container mt-4">
             <hr>
             <div class="row">
-                <div class="col-md-6 mt-1">
-                    <a href="" class="btn btn-info btn-block">
-                        добавить направление деятельности
+                <div class="col-md-3 mt-1">
+                    <a href="{% url 'directions_add' parent_id=current_direction.pk %}" class="btn btn-info btn-block">
+                        добавить направление
+                    </a>
+                </div>
+                <div class="col-md-3 mt-1">
+                    <a href="{% url 'directions_edit' direction_id=current_direction.pk %}" class="btn btn-info btn-block">
+                        редактировать направление
                     </a>
                 </div>
                 <div class="col-md-6 mt-1">
@@ -113,11 +120,18 @@
             <footer class="bg-light shadow-1-strong text-lg-start">
                 <div class="row">
                     <div class="col-md-1 p-3">
-{#                        <img src="{% static 'img/gerb.png' %}" height="50">#}
+                        {#                        <img src="{% static 'img/gerb.png' %}" height="50">#}
                     </div>
 
                     <div class="col-md-10 p-3 text-center">
-                        Вы вошли как <b>{{ user.get_full_name|default:user.username }}</b>
+                        Вы вошли как
+                        <b>
+                        {% if user.is_staff %}
+                            <a href="{% url 'admin:index' %}">{{ user.get_full_name|default:user.username }}</a>
+                        {% else %}
+                            {{ user.get_full_name|default:user.username }}
+                        {% endif %}
+                        </b>
                     </div>
 
                     <div class="col-md-1 p-3">

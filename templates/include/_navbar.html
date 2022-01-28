@@ -19,17 +19,17 @@
         </button>
 
         <!-- Collapsible wrapper -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse">
             <!-- Left links -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-{#                    <a class="nav-link" href="{% url 'departments' %}">Структура и работники</a>#}
+                    {#<a class="nav-link" href="{% url 'departments' %}">Структура и работники</a>#}
                 </li>
                 <li class="nav-item">
-{#                    <a class="nav-link" href="{% url 'file_list' %}">Документы</a>#}
+                    {#<a class="nav-link" href="{% url 'file_list' %}">Документы</a>#}
                 </li>
                 <li class="nav-item">
-{#                    <a class="nav-link" href="{% url 'actual_index' %}">Интерактив</a>#}
+                    {#<a class="nav-link" href="{% url 'actual_index' %}">Интерактив</a>#}
                 </li>
                 <!-- Navbar dropdown -->
                 <li class="nav-item dropdown">
@@ -45,13 +45,14 @@
                     </a>
                     <!-- Dropdown menu -->
                     <ul class="dropdown-menu bg-info" aria-labelledby="navbarDropdown">
-{#                        <li><a class="dropdown-item" href="{% url 'cert' %}">Сертификаты</a></li>#}
-{#                        <li><a class="dropdown-item" href="{% url 'order' %}">Загрузка приказов</a></li>#}
+                        <a class="dropdown-item" href="#">Пукт до разделителя</a>
+                        {#<li><a class="dropdown-item" href="{% url 'cert' %}">Сертификаты</a></li>#}
+                        {#<li><a class="dropdown-item" href="{% url 'order' %}">Загрузка приказов</a></li>#}
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                            <a class="dropdown-item" href="#">Пукт после разделителя</a>
                         </li>
                     </ul>
                 </li>
@@ -72,33 +73,42 @@
                         <ul class="dropdown-menu bg-info" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="{% url 'add_news' %}">Добавить новость</a></li>
                             <li><a class="dropdown-item" href="{% url 'admin:index' %}">Администрирование</a></li>
-                            <li><a class="dropdown-item" href="{% url 'logout' %}">Выйти из системы</a></li>
-
                         </ul>
                     </li>
+
+                {% else %}
+                {% endif %}
+
+            </ul>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                {% if user.is_authenticated %}
                     <span class="navbar-text">Вы вошли как <b>{{ user.get_full_name }}</b></span>
+                    <div class="d-flex align-items-center">
+                        <a type="button" class="btn btn-link px-3 me-2" href="{% url 'logout' %}">
+                            Выйти
+                        </a>
+                    </div>
                 {% else %}
                     <div class="d-flex align-items-center">
-{#                        <a type="button" class="btn btn-link px-3 me-2" href="{% url 'login' %}">#}
+                        <a type="button" class="btn btn-link px-3 me-2" href="{% url 'login' %}">
                             Войти
                         </a>
                     </div>
                 {% endif %}
-
             </ul>
 
             <!-- Left links -->
-{#            <form method="get" action="{% url 'person_search' %}">#}
-{#                <div class="input-group">#}
-{#                    <div class="form-outline">#}
-{#                        <input type="text" name="q" id="search-form" class="form-control bg-light"/>#}
-{#                        <label class="form-label" for="search-form">Фамилия или название</label>#}
-{#                    </div>#}
-{#                    <button type="submit" class="btn btn-primary">#}
-{#                        Найти#}
-{#                    </button>#}
-{#                </div>#}
-{#            </form>#}
+            {#            <form method="get" action="{% url 'person_search' %}">#}
+            {#                <div class="input-group">#}
+            {#                    <div class="form-outline">#}
+            {#                        <input type="text" name="q" id="search-form" class="form-control bg-light"/>#}
+            {#                        <label class="form-label" for="search-form">Фамилия или название</label>#}
+            {#                    </div>#}
+            {#                    <button type="submit" class="btn btn-primary">#}
+            {#                        Найти#}
+            {#                    </button>#}
+            {#                </div>#}
+            {#            </form>#}
         </div>
         <!-- Collapsible wrapper -->
     </div>

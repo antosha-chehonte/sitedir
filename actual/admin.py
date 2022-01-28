@@ -1,9 +1,10 @@
 from django.contrib import admin
 from mptt.admin import DraggableMPTTAdmin
-from actual.models import Directions, Notes
+from actual.models import Directions, Notes, NoteStatus
 
 # admin.site.register(DirectionsList)
 admin.site.register(Notes)
+admin.site.register(NoteStatus)
 admin.site.register(
     Directions,
     DraggableMPTTAdmin,
