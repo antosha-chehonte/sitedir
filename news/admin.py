@@ -1,10 +1,11 @@
 from django.contrib import admin
 from mptt.admin import DraggableMPTTAdmin
-from news.models import News, Category, Style, Categories
+from news.models import News, Category, Style, Categories, NewsStatus
 
 admin.site.register(News)
 admin.site.register(Category)
 admin.site.register(Style)
+admin.site.register(NewsStatus)
 admin.site.register(
     Categories,
     DraggableMPTTAdmin,

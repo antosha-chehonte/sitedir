@@ -1,5 +1,5 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from it.models import ItNotes, ItDirections
@@ -43,7 +43,7 @@ def it_note_add(request, direction_id=1):
         post_form = ItNoteEditForm(request.POST)
         if post_form.is_valid():
             post_form.save()
-            return HttpResponseRedirect(reverse('it_index'))
+            return redirect('it_directions', parent_id=revers_id)
     else:
         post_form = ItNoteEditForm(initial={'direction_of_work': direction_id})
         context = {
@@ -61,7 +61,7 @@ def it_note_edit(request, note_id):
         post_form = ItNoteEditForm(request.POST, instance=editable_news)
         if post_form.is_valid():
             post_form.save()
-            return HttpResponseRedirect(reverse('it_index'))
+            return redirect('it_directions', parent_id=revers_id)
     else:
         post_form = ItNoteEditForm(instance=editable_news)
         context = {

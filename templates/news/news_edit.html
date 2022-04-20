@@ -1,7 +1,7 @@
 {% extends "base_generic.html" %}
 
 {% block title %}
-    <title>Добавить объявление</title>
+    <title>Изменить объявление</title>
 {% endblock %}
 
 {% block sidebar %}
@@ -11,14 +11,14 @@
 {% block content %}
         <div class="row">
             <div class="col-md-9">
-                <h5 class="text-center">Добавление объявления</h5>
-                <form action="{% url 'add_news' %}" method="post">
+                <h5 class="text-center">Изменить объявление</h5>
+                <form action="{% url 'news_edit' news_id=news_id %}" method="post">
                     {% csrf_token %}
                     {{ post_form.media }}
                     {{ post_form.as_p }}
 
                     <button type="submit" class="btn btn-primary btn-block">
-                            Добавить объявление
+                            Сохранить изменения
                     </button>
                 </form>
             </div>

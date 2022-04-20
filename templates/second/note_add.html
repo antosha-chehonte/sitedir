@@ -1,4 +1,4 @@
-{% extends "base_actual.html" %}
+{% extends "base_second.html" %}
 
 {% block title %}
     <title>Добавить актуальную информацию</title>
@@ -7,7 +7,7 @@
 {% block content %}
 
     <div class="container mt-4 mb-5">
-        <form action="{% url 'note_add_id' direction_id=revers_id %}" method="post">
+        <form action="{% url 'second_note_add_id' direction_id=revers_id %}" method="post">
             {% csrf_token %}
             {{ post_form.media }}
             {{ post_form.as_p }}
@@ -19,7 +19,7 @@
                     </button>
                 </div>
                 <div class="col-md-2 d-flex justify-content-end">
-                    <a href="{% url 'actual_directions' parent_id=revers_id %}" class="btn btn-warning btn-block">
+                    <a href="{% url 'second_directions' parent_id=revers_id %}" class="btn btn-warning btn-block">
                         назад
                     </a>
                 </div>

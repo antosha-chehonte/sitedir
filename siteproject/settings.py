@@ -9,6 +9,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '10.80.21.211',
+    '10.46.152.250',
 ]
 
 INSTALLED_APPS = [
@@ -21,6 +22,7 @@ INSTALLED_APPS = [
     'news.apps.NewsConfig',
     'actual.apps.ActualConfig',
     'it.apps.ItConfig',
+    'second.apps.SecondConfig',
     'ckeditor',
     'ckeditor_uploader',
     'mptt',
@@ -111,7 +113,7 @@ CKEDITOR_CONFIGS = {
             ['RemoveFormat', 'CopyFormatting', 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
             ['Find', 'Replace', 'SelectAll'],
             ['NumberedList', 'BulletedList', 'JustifyLeft', 'JustifyCenter'],
-            ['Link', 'Unlink'],
+            ['Link', 'Unlink', 'Image'],
             ['Font', 'FontSize'],
             ['TextColor', 'BGColor'],
             ['Maximize'],

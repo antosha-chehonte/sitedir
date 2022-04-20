@@ -17,14 +17,26 @@ class Categories(MPTTModel):
         ordering = ['title']
 
 
+class NewsStatus(models.Model):
+    status = models.CharField(max_length=20, verbose_name='Статус объявления')
+
+    def __str__(self):
+        return self.status
+
+    class Meta:
+        verbose_name = 'Статус объявления'
+        verbose_name_plural = 'Статусы объявления'
+
+
 class News(models.Model):
     title = models.CharField(max_length=150, verbose_name='Заголовок объявления')
     content = RichTextUploadingField(blank=False, verbose_name='Содержание объявления')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Обновлено')
-    # file = models.FileField(upload_to='files/%Y/%m/%d/', verbose_name='Прикрепить файл', blank=True)
+    status = models.ForeignKey(NewsStatus, on_delete=models.PROTECT, verbose_name='Статус объявления')
     is_published = models.BooleanField(default=True, verbose_name='Опубликовано')
     show_author = models.BooleanField(default=True, verbose_name='Показать автора объявления')
+    author = models.CharField(max_length=50, verbose_name='Автор объявления')
     pinned = models.BooleanField(default=False, verbose_name='Закрепить сообщение')
     category = models.ForeignKey(Categories, on_delete=models.PROTECT,
                                  null=True, verbose_name='Направление деятельности')

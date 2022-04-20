@@ -1,5 +1,5 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from actual.models import Notes, Directions
@@ -30,8 +30,15 @@ def actual_index(request, parent_id=1):
 
 def actual_directions_tree(request):
     directions = Directions.objects.all()
+    stat_directions_count = Directions.objects.filter(status=1).count()
+    stat_note_count = Notes.objects.filter(status=1).count()
+    stat_note_last = Notes.objects.filter(status=1).latest('updated_at')
+
     context = {
         'nodes': directions,
+        'stat_note_count': stat_note_count,
+        'stat_note_last': stat_note_last,
+        'stat_directions_count': stat_directions_count,
     }
 
     return render(request, template_name="actual/directions_tree.html", context=context)
@@ -47,7 +54,7 @@ def note_add(request, direction_id=1):
             post_form.save()
             # return actual_index(request, parent_id=revers_id)
             # todo: настроить редирект на actual_index с текущим направлением деятельности
-            return HttpResponseRedirect(reverse('actual_index'))
+            return redirect('actual_directions', parent_id=revers_id)
     else:
         post_form = NoteEditForm(initial={'direction_of_work': direction_id, 'status': 1})
         context = {
@@ -65,7 +72,7 @@ def note_edit(request, note_id):
         post_form = NoteEditForm(request.POST, instance=editable_note)
         if post_form.is_valid():
             post_form.save()
-            return actual_index(request, parent_id=revers_id)
+            return redirect('actual_directions', parent_id=revers_id)
     else:
         post_form = NoteEditForm(instance=editable_note)
         context = {
@@ -93,6 +100,7 @@ def directions_add(request, parent_id=1):
         }
         return render(request, 'actual/directions_add.html', context)
 
+
 @login_required
 def directions_edit(request, direction_id):
     editable_direction = Directions.objects.get(pk=direction_id)
@@ -109,3 +117,16 @@ def directions_edit(request, direction_id):
             "revers_id": revers_id,
         }
         return render(request, 'actual/directions_edit.html', context)
+
+
+def statistics(request):
+    directions = Directions.objects.all()
+    context = {
+        'nodes': directions,
+    }
+
+    return render(request, template_name="actual/directions_tree.html", context=context)
+
+
+def redirect_to_actual(request):
+    return redirect('/directions')

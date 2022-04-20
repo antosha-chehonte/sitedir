@@ -1,13 +1,13 @@
-{% extends "base_actual.html" %}
+{% extends "base_second.html" %}
 
 {% block title %}
-    <title>Добавить актуальную информацию</title>
+    <title>Добавить направление деятельности заместителей</title>
 {% endblock %}
 
 {% block content %}
 
     <div class="container mt-4 mb-5">
-        <form action="{% url 'note_add_id' direction_id=revers_id %}" method="post">
+        <form action="{% url 'second_directions_add' parent_id=1 %}" method="post">
             {% csrf_token %}
             {{ post_form.media }}
             {{ post_form.as_p }}
@@ -15,11 +15,11 @@
             <div class="row">
                 <div class="col-md-10">
                     <button type="submit" class="btn btn-primary btn-block">
-                        Добавить информацию
+                        Добавить направление
                     </button>
                 </div>
                 <div class="col-md-2 d-flex justify-content-end">
-                    <a href="{% url 'actual_directions' parent_id=revers_id %}" class="btn btn-warning btn-block">
+                    <a href="{% url 'second_directions' parent_id=revers_id %}" class="btn btn-warning btn-block">
                         назад
                     </a>
                 </div>

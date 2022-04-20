@@ -1,13 +1,13 @@
 from datetime import date
 from django.contrib.auth import logout
 from django.core.paginator import Paginator
-# from django.http import HttpResponseRedirect
+from django.db.models import Count, Q
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.decorators import login_required
 
 from news.forms import NewsEditForm
-from news.models import News, Category
+from news.models import News, Categories
 
 
 def get_ip(request):    # функция получения ip адреса пользователя
@@ -19,21 +19,30 @@ def get_ip(request):    # функция получения ip адреса по
     return ip
 
 
+def get_actual_categories():
+    categories = Categories.objects.annotate(
+        count_news=Count('news', filter=Q(news__status=1))
+    ).filter(count_news__gt=0)
+    return categories
+
+
 def index(request):
     ip = get_ip(request)
     today = date.today()
     news_list = News.objects.filter(
         created_at__year=today.year,
         created_at__month=today.month,
-        created_at__day=today.day
+        created_at__day=today.day,
+        status=1
     )
     news_list_yesterday = News.objects.filter(
         created_at__year=today.year,
         created_at__month=today.month,
-        created_at__day=today.day-1
+        created_at__day=today.day-1,
+        status=1
     )
-    news_list_pinned = News.objects.filter(pinned=True)
-    categories = Category.objects.all()
+    news_list_pinned = News.objects.filter(pinned=True, status=1)
+    categories = get_actual_categories()
     # birthday = Employees.objects.filter(
     #     birthday__month=today.month,
     #     birthday__day=today.day,
@@ -55,14 +64,16 @@ def index(request):
 
 
 def news(request, category_id=None):
+    actual_news = News.objects.filter(status=1)
+
+    categories = get_actual_categories()
+
     if category_id:
-        news_list = News.objects.filter(category_id=category_id)
-        categories = Category.objects.all()
-        by_category = Category.objects.get(pk=category_id)
+        news_list = News.objects.filter(category_id=category_id, status=1)
+        by_category = Categories.objects.get(pk=category_id)
         pinned_news = False
     else:
-        news_list = News.objects.all()
-        categories = Category.objects.all()
+        news_list = News.objects.filter(status=1)
         by_category = False
         pinned_news = True
     paginator = Paginator(news_list, 5)
@@ -80,7 +91,7 @@ def news(request, category_id=None):
 
 def news_view(request, news_id):
     news_list = News.objects.get(pk=news_id)
-    categories = Category.objects.all()
+    categories = get_actual_categories()
     context = {
         'news_list': news_list,
         'categories': categories,
@@ -96,16 +107,16 @@ def news_add(request):
             post_form.save()
             return redirect(index)
     else:
-        post_form = NewsEditForm
+        post_form = NewsEditForm(initial={'status': 1})
         context = {
             "post_form": post_form,
         }
         return render(request, 'news/news_add.html', context)
 
+
 @login_required
 def news_edit(request, news_id):
     editable_news = News.objects.get(pk=news_id)
-    editable = True
     if request.method == 'POST':
         post_form = NewsEditForm(request.POST, instance=editable_news)
         if post_form.is_valid():
@@ -115,12 +126,14 @@ def news_edit(request, news_id):
         post_form = NewsEditForm(instance=editable_news)
         context = {
             "post_form": post_form,
-            "editable": editable,
+            "news_id": news_id,
         }
-        return render(request, 'news/news_add.html', context)
+        return render(request, 'news/news_edit.html', context)
+        # todo: перевести на отдельный шаблон news_edit.html
 
 
 class Logout(View):
     def get(self, request):
         logout(request)
         return redirect(to='/')
+

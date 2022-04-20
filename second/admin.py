@@ -1,12 +1,12 @@
 from django.contrib import admin
 from mptt.admin import DraggableMPTTAdmin
-from actual.models import Directions, Notes, NoteStatus
+from second.models import SecDirections, SecNotes, SecNoteStatus
 
 # admin.site.register(DirectionsList)
-admin.site.register(Notes)
-admin.site.register(NoteStatus)
+admin.site.register(SecNotes)
+admin.site.register(SecNoteStatus)
 admin.site.register(
-    Directions,
+    SecDirections,
     DraggableMPTTAdmin,
     list_display=(
         'tree_actions',

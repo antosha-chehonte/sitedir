@@ -1,4 +1,4 @@
-{% extends "base_actual.html" %}
+{% extends "base_second.html" %}
 {% load static %}
 
 {% block title %}
@@ -6,7 +6,7 @@
         {% if parent %}
             {{ current_direction.direction }}
         {% else %}
-            Состояние надзора
+            Заместители
         {% endif %}
     </title>
 {% endblock %}
@@ -19,13 +19,13 @@
         <div class="container mt-2">
             <div class="row">
                 <div class="col-md-11 mt-1">
-                    <a class="btn btn-primary btn-block btn-lg" href="{% url 'actual_directions' parent_id=parent.pk %}"
+                    <a class="btn btn-primary btn-block btn-lg" href="{% url 'second_directions' parent_id=parent.pk %}"
                        role="button">
                         назад к разделу <b>{{ parent }}</b>
                     </a>
                 </div>
                 <div class="col-md-1 mt-1">
-                    <a class="btn btn-primary btn-block btn-lg" href="{% url 'actual_index' %}"> {# возврат "домой" #}
+                    <a class="btn btn-primary btn-block btn-lg" href="{% url 'second_index' %}"> {# возврат "домой" #}
                         <i class="fas fa-home fa-lg"></i>
                     </a>
                 </div>
@@ -43,10 +43,10 @@
                     {# пустышка для центрирования#}
                 </div>
                 <div class="col-md-10 d-flex justify-content-center">
-                    <h4>Направления деятельности</h4>
+                    <h4>Направления деятельности заместителей</h4>
                 </div>
                 <div class="col-md-1 d-flex justify-content-end">
-                    <a href="{% url 'actual_directions_tree' %}">
+                    <a href="{% url 'second_directions_tree' %}">
                         <i class="fas fa-sitemap fa-lg"></i>
                     </a>
                 </div>
@@ -67,7 +67,7 @@
                                     {{ direct.description }}
                                 </p>
                             {% endif %}
-                            <a href="{% url 'actual_directions' parent_id=direct.pk %}" class="stretched-link"></a>
+                            <a href="{% url 'second_directions' parent_id=direct.pk %}" class="stretched-link"></a>
                         </div>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
                         <h6><b>(данные обновлены {{ note.updated_at }})</b></h6>
                     </div>
                     <div class="col-md-1 d-flex justify-content-end">
-                        <a href="{% url 'note_edit' note_id=note.pk %}"><i class="fas fa-edit fa-lg"></i></a>
+                        <a href="{% url 'second_note_edit' note_id=note.pk %}"><i class="fas fa-edit fa-lg"></i></a>
                     </div>
                 </div>
                 <div class="mt-4">
@@ -104,18 +104,18 @@
             <hr>
             <div class="row">
                 <div class="col-md-3 mt-1">
-                    <a href="{% url 'directions_add' parent_id=current_direction.pk %}" class="btn btn-info btn-block">
+                    <a href="{% url 'second_directions_add' parent_id=current_direction.pk %}" class="btn btn-info btn-block">
                         добавить направление
                     </a>
                 </div>
                 <div class="col-md-3 mt-1">
-                    <a href="{% url 'directions_edit' direction_id=current_direction.pk %}"
+                    <a href="{% url 'second_directions_edit' direction_id=current_direction.pk %}"
                        class="btn btn-info btn-block">
                         редактировать направление
                     </a>
                 </div>
                 <div class="col-md-6 mt-1">
-                    <a href="{% url 'note_add_id' direction_id=current_direction.pk %}" class="btn btn-info btn-block">
+                    <a href="{% url 'second_note_add_id' direction_id=current_direction.pk %}" class="btn btn-info btn-block">
                         добавить информацию
                     </a>
                 </div>

@@ -13,14 +13,24 @@ class NewsEditForm(forms.ModelForm):
             'category',
             'title',
             'content',
-            # 'file',
             'style',
+            'status',
+            'pinned',
+            'author',
             'show_author',
             'is_published',
         ]
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
-            'category': forms.Select(attrs={'class': 'form-control'}),
-            'style': forms.Select(attrs={'class': 'form-control', 'style': 'width:460px'}),
+            'category': forms.Select(attrs={'class': 'form-select'}),
+            'style': forms.Select(attrs={'class': 'form-select', 'style': 'width:460px'}),
+            'status': forms.Select(attrs={'class': 'form-select', 'style': 'width:460px'}),
+            'pinned': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'author': forms.TextInput(attrs={'class': 'form-control'}),
+            'show_author': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'is_published': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
+        labels = {
+            'pinned': 'Закрепить объявление'
         }
